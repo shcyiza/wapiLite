@@ -24,14 +24,6 @@ const initAPI = (req, res, next) => {
   }
 
   res.apiError = (status, err, info) => {
-    if (err) {
-      const ip = (req.ip) ? req.ip : 'anonymous'
-      logger.error(
-        `user=${ip} - method=${req.method} - url=`
-        + `${req.originalUrl} - status=${status} - message=${err.message}`,
-        { error: err }
-      )
-    }
 
     res.status(status || 500)
     res.apiResponse({
@@ -59,6 +51,10 @@ const initAPI = (req, res, next) => {
 
   res.apiNotAllowedMethod = (err, info) => {
     res.apiError(405, err, info || 'Method not allowed')
+  }
+
+  res.apiFatal = (err, info) => {
+    res.apiError(500, err, info || 'Fatal error')
   }
 
   next()
