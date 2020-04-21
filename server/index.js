@@ -3,6 +3,8 @@ const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 const app = express()
 
+const V1_controller = require('./controller')
+
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js')
 config.dev = process.env.NODE_ENV !== 'production'
@@ -20,8 +22,13 @@ async function start () {
     await builder.build()
   }
 
-  // Give nuxt middleware to express
-  app.use(nuxt.render)
+  // Give nuxt middlewares to express
+  app.use("/editor", nuxt.render)
+  app.get('/', function(req, res) {
+    res.redirect('/editor');
+  });
+
+  V1_controller(app)
 
   // Listen the server
   app.listen(port, host)
