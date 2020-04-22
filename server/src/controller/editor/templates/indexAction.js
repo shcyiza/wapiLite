@@ -1,16 +1,17 @@
 const fs = require('fs')
+const asyncFs = fs.promises
 
-module.exports = base_dir => (req, res) => {
+module.exports = base_dir => async (req, res) => {
   try {
     const templates = [];
 
-    const raw_data = fs.readdirSync(base_dir, { withFileTypes: true, withFileStats: true});
+    const raw_data = await asyncFs.readdir(base_dir, { withFileTypes: true, withFileStats: true});
 
     for (const dirent of raw_data) {
       if(dirent.isDirectory()) {
         const {name} = dirent
         console.log(dirent)
-        const {birthtime, mtime, atime} = fs.statSync(base_dir + name, {}, ()=>{})
+        const {birthtime, mtime, atime} = await asyncFs.stat(base_dir + name, {})
 
         templates.push({
           name,

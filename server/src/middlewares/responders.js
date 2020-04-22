@@ -54,7 +54,8 @@ const initAPI = (req, res, next) => {
   }
 
   res.apiFatal = (err, info) => {
-    res.apiError(500, err, info || 'Fatal error')
+    console.error(err);
+    return res.apiError(500, err, info || 'Fatal error')
   }
 
   next()
