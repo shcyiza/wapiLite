@@ -10,7 +10,6 @@ module.exports = base_dir => async (req, res) => {
     for (const dirent of raw_data) {
       if(dirent.isDirectory()) {
         const {name} = dirent
-        console.log(dirent)
         const {birthtime, mtime, atime} = await asyncFs.stat(base_dir + name, {})
 
         templates.push({

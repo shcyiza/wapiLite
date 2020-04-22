@@ -1,7 +1,7 @@
 const fs = require('fs')
 const asyncFs = fs.promises
 
-const {CONTENT_URI, STYLING_FILE} = require('./helper')
+const {CONTENT_URI, STYLING_URI, DEFAULT_IMG, forEachFile} = require('./helper')
 
 module.exports = base_dir => async (req, res) => {
   try {
@@ -16,16 +16,19 @@ module.exports = base_dir => async (req, res) => {
 
 
     const claim_dir = `${base_dir}/${template_name}/`
-    const DEFAULT_CONTENT = "<!--inky html supported></!-->"
-    const DEFAULT_STYLE = "//Css here"
+
+    const images = []
 
 
     if (!fs.existsSync(claim_dir)) {
       await asyncFs.mkdir(claim_dir);
 
-      await asyncFs.appendFile(claim_dir + CONTENT_URI, DEFAULT_CONTENT)
+      forEachFile(async (file_name) => {
+        const image = DEFAULT_IMG.get(file_name);
+        images.push(image)
 
-      await asyncFs.appendFile(claim_dir + STYLING_FILE, DEFAULT_STYLE)
+        await asyncFs.appendFile(claim_dir + file_name, image)
+      })
 
       const {birthtime, mtime, atime} = await asyncFs.stat(claim_dir, {})
 
@@ -36,12 +39,12 @@ module.exports = base_dir => async (req, res) => {
           mtime,
           atime
         },
-        content_img: DEFAULT_CONTENT,
-        styling_img: DEFAULT_STYLE
+        content_img: images[0],
+        styling_img: images[1]
       })
     }
 
-    return res.apiBadRequest(new Error(`Template ${template_name} already exist`))
+    return res.apiBadRequest(new Error(`Template '${template_name}' already exist`))
   } catch (err) {
     return res.apiFatal(err)
   }
