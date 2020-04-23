@@ -6,7 +6,7 @@ module.exports = {
     lintOnSave: true,
     configureWebpack: {
         entry: {
-            app: "./api/editor/main.js",
+            app: "./src/editor/main.js",
         },
     },
 };

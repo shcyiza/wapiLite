@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "devserver": "cross-env NODE_ENV=development nodemon index.js",
+    "deveditor": "vue-cli-service build && cross-env NODE_ENV=edition nodemon index.js",
     "start": "cross-env NODE_ENV=production node index.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",

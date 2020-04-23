@@ -1,13 +1,13 @@
 <template>
     <section>
-        <div class="container row">
-            <div class="is-2">
+        <b-row class="container">
+            <b-col class="fullcolumns" sm="2">
                 <TemplateNavigator/>
-            </div>
-            <div class="is-10">
+            </b-col>
+            <b-col class="fullcolumns" sm="10">
                 <TemplateEditor />
-            </div>
-        </div>
+            </b-col>
+        </b-row>
     </section>
 </template>
 
@@ -24,3 +24,8 @@ export default {
     },
 };
 </script>
+
+<style lang="sass">
+.fullcolumns
+    padding: unset !important
+</style>

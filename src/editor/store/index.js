@@ -19,6 +19,7 @@ export default new Vuex.Store({
             // put new element as first
             const new_arr = [payload];
             state.templates = new_arr.concat(state.templates);
+            state.current_template = payload.name;
         },
         setCurrentTemplate(state, payload) {
             state.current_template = payload;

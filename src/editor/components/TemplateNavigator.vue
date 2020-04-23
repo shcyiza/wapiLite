@@ -15,13 +15,13 @@
             >
                 <strong class="title">{{ template.name }}</strong>
                 <br>
-                <i class="subtext">
+                <span class="subtext">
                     created at: {{ template.meta_data.birthtime }}
-                </i>
+                </span>
                 <br>
-                <i class="subtext">
+                <span class="subtext">
                     modified at: {{ template.meta_data.mtime }}
-                </i>
+                </span>
             </b-button>
         </div>
 
