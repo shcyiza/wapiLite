@@ -208,6 +208,7 @@ export default {
                     },
                 );
 
+                await this.$store.dispatch("fetchTemplates");
                 this.template = data;
                 notifySuccess("Template successfully saved!");
             } catch (e) {

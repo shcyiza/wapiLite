@@ -32,7 +32,7 @@ module.exports = (base_dir) => async (req, res) => {
             const template_data = JSON.parse(template_data_raw);
 
             template_data.mail_subj = mail_subj;
-            template_data.mtime = new Date();
+            template_data.meta_data.mtime = new Date();
 
             const inky_css = await asyncFs.readFile("public/foundation_emails.css", "utf8");
             const inked_blob = blob.replace(
