@@ -60,7 +60,7 @@
             <br>
             <b-button
                 variant="outline-success"
-                :disabled="!new_template_subj || !new_template_name"
+                :disabled="!(new_template_subj || new_template_name)"
                 @click="addTemplate"
             >
                 <b-icon icon="cloud-upload" aria-hidden="true"></b-icon>
@@ -108,7 +108,7 @@ export default {
                     "templates/new",
                     {
                         name: this.new_template_name,
-                        email_subj: this.new_template_subj,
+                        mail_subj: this.new_template_subj,
                     },
                 );
 

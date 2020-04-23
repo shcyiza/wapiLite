@@ -2,6 +2,8 @@ const fs = require("fs");
 
 const asyncFs = fs.promises;
 
+const { DATA_URI } = require("./helper");
+
 module.exports = (base_dir) => async (req, res) => {
     try {
         const templates = [];
@@ -14,15 +16,12 @@ module.exports = (base_dir) => async (req, res) => {
         for (const dirent of raw_data) {
             if (dirent.isDirectory()) {
                 const { name } = dirent;
-                const { birthtime, mtime, atime } = await asyncFs.stat(base_dir + name, {});
+                const template_data_raw = await asyncFs.readFile(`${base_dir}${name}/${DATA_URI}`, "utf8");
+                const template_data = JSON.parse(template_data_raw);
 
                 templates.push({
                     name,
-                    meta_data: {
-                        birthtime,
-                        mtime,
-                        atime,
-                    },
+                    ...template_data,
                 });
             }
         }

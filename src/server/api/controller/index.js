@@ -20,7 +20,8 @@ module.exports = (app) => {
    */
     app.use(API_PATH, logger.logRequest());
 
-    editorController(app, API_PATH);
+    if (process.env.NODE_ENV !== "production") editorController(app, API_PATH);
+
     v1Controller(app, API_PATH);
 
     app.all(`${API_PATH}*`, (req, res) => {

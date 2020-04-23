@@ -16,9 +16,9 @@ export default {
         });
     },
     beforeUpdate() {
-    // freezing to prevent unnessessary Reactifiation of vNodes
+        // freezing to prevent unnessessary Reactifiation of vNodes
         this.setCustomStyle();
-        this.iApp.children = Object.freeze(this.$slots.default);
+        if (this.iApp) this.iApp.children = Object.freeze(this.$slots.default);
     },
     methods: {
         mountBodyComponent(component) {
@@ -52,7 +52,7 @@ export default {
         },
         setCustomStyle() {
             const css = document.querySelector("iframe#preview").contentWindow.document.head.querySelector("#custom-style");
-            css.innerHTML = this.editedStyles;
+            if (css) css.innerHTML = this.editedStyles;
         },
         renderChildren() {
             this.loadStyles();

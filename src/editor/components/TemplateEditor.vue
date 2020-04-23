@@ -15,7 +15,7 @@
                     >
                         <b-form-input
                             id="subj_field"
-                            v-model="template.subject"
+                            v-model="template.mail_subj"
                             type="text"
                         ></b-form-input>
                     </b-form-group>
@@ -51,9 +51,9 @@
                 </b-col>
                 <b-col id="preview-wrapper" sm="6">
                     <div class="action-wrapper">
-                        <b-button pill class="action" variant="success">
+                        <b-button pill class="action" variant="success" @click="saveTemplate">
                             <b-icon-cloud-upload/>
-                            Success
+                            Save
                         </b-button>
                         <b-button
                             pill class="action"
@@ -92,11 +92,12 @@
 
                     <live-frame
                         id="preview"
+                        ref="preview"
                         class="my-frame"
                         scrolling="auto"
-                        :editedStyles="template.styling_img"
+                        :editedStyles="template.styling_img || ''"
                     >
-                        <live-frame-child v-html="inkedHtml"/>
+                        <live-frame-child v-html="inkedHtml || ''"/>
                     </live-frame>
                 </b-col>
             </b-row>
@@ -115,7 +116,7 @@ import { codemirror } from "vue-codemirror";
 import LiveFrame from "./LiveFrame.vue";
 import LiveFrameChild from "./LiveFrameChild.vue";
 import serverApi from "../lib/serve_interface";
-import {notifyError, notifySuccess} from "../lib/ToastNotification";
+import { notifyError, notifySuccess } from "../lib/ToastNotification";
 // codemirror dependencies
 import "codemirror/lib/codemirror.css";
 // language
@@ -154,7 +155,7 @@ export default {
         inkedHtml() {
             const inky = new Inky();
 
-            return inky.releaseTheKraken(this.template.content_img);
+            return inky.releaseTheKraken(this.template.content_img || "");
         },
         htmlOps() {
             return {
@@ -196,6 +197,23 @@ export default {
                 notifyError(e.message);
             }
         },
+        async saveTemplate() {
+            try {
+                const { data } = await serverApi(
+                    "post",
+                    `templates/${this.templateName}/save`,
+                    {
+                        ...this.template,
+                        blob: this.$refs.preview.$el.contentDocument.childNodes[0].outerHTML,
+                    },
+                );
+
+                this.template = data;
+                notifySuccess("Template successfully saved!");
+            } catch (e) {
+                notifyError(e.message);
+            }
+        },
         async destroyTemplate() {
             if (this.delete_confirmation === this.templateName) {
                 try {
@@ -204,16 +222,15 @@ export default {
                         `templates/${this.templateName}`,
                     );
 
-                    this.template = null;
-                    this.html_tab = false;
+                    this.delete_confirmation = "";
+                    this.html_tab = true;
                     this.css_mode_loaded = false;
                     this.$store.commit("setCurrentTemplate", "");
 
                     await this.$store.dispatch("fetchTemplates");
-                    this.delete_confirmation = "";
+                    this.template = null;
                     notifySuccess("Template deleted!");
                     return success;
-
                 } catch (e) {
                     notifyError(e.message);
                 }
