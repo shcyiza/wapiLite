@@ -21,6 +21,7 @@
     "rules": {
         "indent": [2, 4],
         "camelcase": "off",
-        "func-names": ["error", "as-needed"]
+        "func-names": ["error", "as-needed"],
+        "quotes": [2, "double"]
     }
 }

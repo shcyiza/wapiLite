@@ -1,31 +1,31 @@
 
-const express = require('express')
-const consola = require('consola')
-const path = require('path')
+const express = require("express");
+const consola = require("consola");
+const path = require("path");
 
-const app = express()
+const app = express();
 
-const apiController = require('./server/src/controller')
-const port = 3000
+const apiController = require("./server/src/controller");
 
-async function start () {
+const port = 3000;
 
+async function start() {
     app.use("/editor", (req, res) => {
-        res.render('index', { title: 'The index page!' })
-    })
+        res.render("index", { title: "The index page!" });
+    });
 
-    app.get('/', function(req, res) {
-        res.redirect('/editor')
+    app.get("/", (req, res) => {
+        res.redirect("/editor");
     });
 
 
-  apiController(app)
+    apiController(app);
 
-  // Listen the server
-  app.listen(port)
-  consola.ready({
-    message: `Server listening on http://localhost:${port}`,
-    badge: true
-  })
+    // Listen the server
+    app.listen(port);
+    consola.ready({
+        message: `Server listening on http://localhost:${port}`,
+        badge: true,
+    });
 }
-start()
+start();

@@ -1,11 +1,32 @@
+<script>
+    import { toast } from "./lib/ToastNotification";
+
+    export default {
+        name: "App",
+        methods: {
+            handleToastNotification(e) {
+                toast(this.$toasted, e.detail.message, e.detail.type);
+            }
+        },
+        created() {
+            document.addEventListener(
+                "toast-notification",
+                this.handleToastNotification
+            );
+        },
+        beforeDestroy() {
+            document.removeEventListener(
+                "toast-notification",
+                this.handleToastNotification
+            );
+        }
+    };
+</script>
+
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div id="app">s
+        <router-view />
     </div>
-    <router-view />
-  </div>
 </template>
 
 <style lang="scss">

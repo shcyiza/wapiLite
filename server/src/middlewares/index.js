@@ -1,3 +1,3 @@
 module.exports = {
-  responders: require('./responders'),
-}
+    responders: require("./responders"),
+};
