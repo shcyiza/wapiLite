@@ -25,18 +25,47 @@
             </b-button>
         </div>
 
-        <b-modal id="new-template" centered title="New Template"
+        <b-modal id="new-template"
+            ref="modal_new_template"
+            centered title="New Template"
             @close="clearTemplateForm"
-            @cancel="clearTemplateForm"
-            @ok="addTemplate"
+            hide-footer
         >
+            <b-form-group
+                label="Template name:"
+                label-for="new-t-name"
+            >
                 <b-form-input
-                    id="input-1"
+                    id="new-t-name"
                     v-model="new_template_name"
                     type="text"
                     required
                     placeholder="Template name"
                 />
+            </b-form-group>
+
+            <b-form-group
+                label="Mail subject:"
+                label-for="new-t-subj"
+                description="(Interpolation supported)"
+            >
+                <b-form-input
+                    id="new-t-subj"
+                    v-model="new_template_subj"
+                    type="text"
+                    required
+                    placeholder="Subject of the important mail"
+                />
+            </b-form-group>
+            <br>
+            <b-button
+                variant="outline-success"
+                :disabled="!new_template_subj || !new_template_name"
+                @click="addTemplate"
+            >
+                <b-icon icon="cloud-upload" aria-hidden="true"></b-icon>
+                Create template
+            </b-button>
         </b-modal>
     </section>
 </template>
@@ -50,6 +79,7 @@ export default {
     data() {
         return {
             new_template_name: "",
+            new_template_subj: "",
         };
     },
     computed: {
@@ -63,6 +93,7 @@ export default {
     methods: {
         clearTemplateForm() {
             this.new_template_name = "";
+            this.new_template_subj = "";
         },
         setCurrentTemplate(name) {
             this.$store.commit("setCurrentTemplate", name);
@@ -75,11 +106,16 @@ export default {
                 const { data } = await serverApi(
                     "post",
                     "templates/new",
-                    { name: this.new_template_name },
+                    {
+                        name: this.new_template_name,
+                        email_subj: this.new_template_subj,
+                    },
                 );
 
                 this.$store.commit("addTemplate", data);
-                this.new_template_name = "";
+                this.clearTemplateForm();
+
+                this.$refs.modal_new_template.hide();
             } catch (e) {
                 notifyError(e.message);
             }

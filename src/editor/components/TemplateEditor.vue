@@ -210,6 +210,7 @@ export default {
                     this.$store.commit("setCurrentTemplate", "");
 
                     await this.$store.dispatch("fetchTemplates");
+                    this.delete_confirmation = "";
                     notifySuccess("Template deleted!");
                     return success;
 
