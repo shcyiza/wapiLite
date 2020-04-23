@@ -9,7 +9,7 @@ import store from "./store";
 // CSS to import
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
-import "../public/custom.sass";
+import "../../public/custom.sass";
 
 Vue.config.productionTip = false;
 // Install BootstrapVue

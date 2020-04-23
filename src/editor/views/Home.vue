@@ -12,7 +12,7 @@
 </template>
 
 <script>
-// @ is an alias to /src
+// @ is an alias to /api
 import TemplateEditor from "../components/TemplateEditor.vue";
 import TemplateNavigator from "../components/TemplateNavigator.vue";
 

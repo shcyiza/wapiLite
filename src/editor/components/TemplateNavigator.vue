@@ -107,5 +107,4 @@ export default {
 
 .active
     background-color: #005a78 !important
-    border-color: unset !important
 </style>

@@ -18,7 +18,7 @@ module.exports = (base_dir) => async (req, res) => {
             .join("_");
 
 
-        const claim_dir = `${base_dir}/${template_name}/`;
+        const claim_dir = `${base_dir}${template_name}/`;
 
         const images = [];
 

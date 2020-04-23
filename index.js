@@ -1,11 +1,10 @@
 
 const express = require("express");
 const consola = require("consola");
-const path = require("path");
 
 const app = express();
 
-const apiController = require("./server/src/controller");
+const apiController = require("./src/server/api/controller");
 
 const port = 3000;
 

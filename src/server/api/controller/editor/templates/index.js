@@ -1,7 +1,7 @@
 const routes = require("express").Router();
+const { template_dir: BASE_DIR } = require("../../sever.conf.js");
 
 // base url, dependencies of actions
-const BASE_DIR = "server/transaction_templates/";
 
 // controller actions
 const newAction = require("./newAction");
