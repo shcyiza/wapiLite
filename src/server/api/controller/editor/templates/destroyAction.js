@@ -2,7 +2,7 @@ const fs = require("fs");
 
 const asyncFs = fs.promises;
 
-const { CONTENT_URI, STYLING_URI, forEachFile } = require("./helper");
+const { CONTENT_URI, STYLING_URI, forEachFile } = require("../../helper");
 
 module.exports = (base_dir) => async (req, res) => {
     const { template_name } = req.params;

@@ -1,4 +1,5 @@
 
+require("dotenv").config();
 const express = require("express");
 const consola = require("consola");
 const serveStatic = require("serve-static");
@@ -20,7 +21,6 @@ async function start() {
     }
 
     apiController(app);
-
     // Listen the server
     app.listen(port);
     consola.ready({

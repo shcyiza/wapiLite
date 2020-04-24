@@ -1,13 +1,14 @@
+/* eslint-disable no-control-regex */
 const fs = require("fs");
 
 const inlineCss = require("juice");
-const minify = require("html-minifier").minify;
+const { minify } = require("html-minifier");
 
 const asyncFs = fs.promises;
 
 const {
     DATA_URI, CACHE_URI, CONTENT_URI, STYLING_URI,
-} = require("./helper");
+} = require("../../helper");
 
 module.exports = (base_dir) => async (req, res) => {
     try {
@@ -40,12 +41,17 @@ module.exports = (base_dir) => async (req, res) => {
                 `<style>${inky_css}`,
             );
 
-            const zipped_blob = minify(inlineCss(inked_blob), {
-                collapseWhitespace: true,
-                collapseInlineTagWhitespace: true,
-                conservativeCollapse: true,
-                minifyCSS: true,
-            });
+            const min_blob = minify(
+                inlineCss(inked_blob),
+                {
+                    collapseWhitespace: true,
+                    collapseInlineTagWhitespace: true,
+                    conservativeCollapse: true,
+                    minifyCSS: true,
+                },
+            );
+
+            const zipped_blob = min_blob.replace(/<style>(.*?)style>/i, "")
 
             await asyncFs.writeFile(claim_dir + CACHE_URI, zipped_blob);
             await asyncFs.writeFile(`${claim_dir}${DATA_URI}`, JSON.stringify(template_data));

@@ -2,7 +2,7 @@ const fs = require("fs");
 
 const asyncFs = fs.promises;
 
-const { DATA_URI } = require("./helper");
+const { DATA_URI } = require("../../helper");
 
 module.exports = (base_dir) => async (req, res) => {
     try {

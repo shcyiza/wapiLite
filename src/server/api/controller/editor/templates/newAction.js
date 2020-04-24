@@ -4,7 +4,7 @@ const asyncFs = fs.promises;
 
 const {
     makeTemplateData, getImagesDefault, forEachFile,
-} = require("./helper");
+} = require("../../helper");
 
 module.exports = (base_dir) => async (req, res) => {
     try {
