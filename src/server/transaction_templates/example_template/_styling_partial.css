@@ -1,0 +1,13 @@
+/* CSS code here */
+html {
+  	background-color: lightgrey;
+		background-image: url(https://b-fine.be/wp-content/uploads/2019/11/logos_brx_white-207x80@2x.png);
+}
+
+h1 {
+	color: blue;
+}
+
+.margin-top {
+	margin-top: 20px !important
+}
