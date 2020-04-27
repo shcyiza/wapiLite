@@ -4,7 +4,7 @@
         <code>
             {<br/>
                 <span class="json-elm" v-for="(variable, i) of varsList" :key="i">
-                    <b>"{{variable}}"</b>: ""
+                    <b>"{{variable}}"</b>: "",
                     <br/>
                 </span>
             }
