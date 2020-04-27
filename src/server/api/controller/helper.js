@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 const CONTENT_URI = "_content_partial.html";
 const STYLING_URI = "_styling_partial.css";
 const DATA_URI = "data.json";
@@ -36,20 +37,18 @@ const getImgVars = (img) => {
 };
 
 const parseVars = (img, payload, catchCb) => {
-    try {
-        let work_copy = img;
-        const img_vars = getImgVars(img);
+    let work_copy = img;
+    const img_vars = getImgVars(img);
 
-        img_vars.forEach((key) => {
-            const reg = new RegExp(`%{${key}}`, "gi");
+    for (const key of img_vars) {
+        const reg = new RegExp(`%{${key}}`, "gi");
+        const value = payload[key];
 
-            work_copy = work_copy.replace(reg, payload[key]);
-        });
-
-        return work_copy;
-    } catch (err) {
-        return catchCb(err);
+        work_copy = work_copy.replace(reg, payload[key]);
+        if (!value) return catchCb(Error(`Variable '${key}' not specified in vars body`));
     }
+
+    return work_copy;
 };
 
 

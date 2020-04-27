@@ -21,13 +21,12 @@ module.exports = (transport) => async (req, res) => {
     try {
         const raw_html = await asyncFs.readFile(claim_dir + CACHE_URI, "utf8");
         const template_data = JSON.parse(await asyncFs.readFile(claim_dir + DATA_URI, "utf8"));
-        const parser = (img) => parseVars(img, vars, res.apiBadRequest)
+        const parser = (img) => parseVars(img, vars, res.apiBadRequest);
 
         const html = parser(raw_html);
         const subject = parser(template_data.mail_subj);
 
-        console.log(vars);
-        console.log(subject);
+        if (!html || !subject) return null;
 
         const mail_data = {
             subject,
@@ -36,15 +35,15 @@ module.exports = (transport) => async (req, res) => {
             html,
         };
 
-        transport.sendMail(mail_data, (err, info) => {
+        return transport.sendMail(mail_data, (err, info) => {
             if (err) {
-                res.apiForbidden(err);
-            } else {
-                res.apiResponse({
-                    success: true,
-                    info,
-                });
+                return res.apiForbidden(err);
             }
+
+            return res.apiResponse({
+                success: true,
+                info,
+            });
         });
     } catch (err) {
         return res.apiFatal(err);
