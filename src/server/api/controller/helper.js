@@ -30,7 +30,10 @@ const forEachFile = (operation) => {
 const getImgVars = (img) => {
     const regex = /%{+\w+}/g;
 
-    const raw_vars = img.match(regex).map((_var) => _var.replace(/[%{} ]/g, ""));
+    const matches = img.match(regex);
+
+    const raw_vars = matches ? matches.map((_var) => _var.replace(/[%{} ]/g, "")) : [];
+
     const clean_vars = Array.from(new Set(raw_vars));
 
     return clean_vars;

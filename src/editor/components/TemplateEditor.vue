@@ -48,6 +48,8 @@
                             v-if="css_mode_loaded"
                         />
                     </div>
+
+                    <vars-preview :content="template.content_img" :subject="template.mail_subj"/>
                 </b-col>
                 <b-col id="preview-wrapper" sm="6">
                     <div class="action-wrapper">
@@ -127,6 +129,7 @@ import "codemirror/theme/rubyblue.css";
 import "codemirror/theme/paraiso-light.css";
 // require active-line.js
 import "codemirror/addon/selection/active-line";
+import VarsPreview from "./VarsPreview.vue";
 
 const Inky = require("inky/lib/inky.js");
 
@@ -144,6 +147,7 @@ export default {
         codemirror,
         LiveFrame,
         LiveFrameChild,
+        VarsPreview,
     },
     computed: {
         title() {
@@ -256,11 +260,11 @@ export default {
 #editor-container
     width: 100%
 .vue-codemirror
-    height: 75vh
+    height: 45vh
     overflow: auto
     border: 1px solid #d3d3d3
 .CodeMirror
-    height: 74vh !important
+    height: 44vh !important
 
 .action-wrapper
     margin: 25px
