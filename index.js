@@ -12,7 +12,7 @@ const apiController = require("./src/server/api/controller");
 const port = 3000;
 
 async function start() {
-    if (process.env.NODE_ENV === "edition") {
+    if (process.env.NODE_ENV === "development") {
         app.use("/", serveStatic(path.join(__dirname, "./dist")));
         // this * route is to serve project on different page routes except root `/`
         app.get("/", (req, res) => {
