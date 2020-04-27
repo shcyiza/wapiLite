@@ -26,6 +26,32 @@ const forEachFile = (operation) => {
     FILES.forEach(operation);
 };
 
+const getImgVars = (img) => {
+    const regex = /%{+\w+}/g;
+
+    const raw_vars = img.match(regex).map((_var) => _var.replace(/[%{} ]/g, ""));
+    const clean_vars = Array.from(new Set(raw_vars));
+
+    return clean_vars;
+};
+
+const parseVars = (img, payload, catchCb) => {
+    try {
+        let work_copy = img;
+        const img_vars = getImgVars(img);
+
+        img_vars.forEach((key) => {
+            const reg = new RegExp(`%{${key}}`, "gi");
+
+            work_copy = work_copy.replace(reg, payload[key]);
+        });
+
+        return work_copy;
+    } catch (err) {
+        return catchCb(err);
+    }
+};
+
 
 module.exports = {
     CONTENT_URI,
@@ -36,4 +62,5 @@ module.exports = {
     getImagesDefault,
     mapOnFiles,
     forEachFile,
+    parseVars,
 };
