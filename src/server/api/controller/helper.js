@@ -61,8 +61,8 @@ const parseIterator = (img, payload, catchCb) => {
         const iterator = payload[iterator_key];
         if (!iterator) return catchCb(Error(`Iterator '${iterator_key}' not specified in vars body`));
 
-        const img_exp = new RegExp(`<\\s*iterate_+\\s+\\b${iterator_key}+>([^$]+?)<\\/iterate_>`, "gi");
-        const iterator_raw_contents = img.match(img_exp);
+        const i_img_exp = new RegExp(`<\\s*iterate_+\\s+\\b${iterator_key}+>([^$]+?)<\\/iterate_>`, "gi");
+        const iterator_raw_contents = img.match(i_img_exp);
 
         for (const raw_content of iterator_raw_contents) {
             let processed_content = "";
@@ -70,7 +70,7 @@ const parseIterator = (img, payload, catchCb) => {
 
             for (let i = 0; i < iterator.length; i += 1) {
                 const iteration = iterator[i];
-                let local_work_copy = raw_content;
+                let sub_content = raw_content;
 
                 for (const attr of iterator_attrs) {
                     const value = iteration[attr];
@@ -82,10 +82,10 @@ const parseIterator = (img, payload, catchCb) => {
 
                     const var_exp = new RegExp(`%{i.${attr}}`, "gi");
 
-                    local_work_copy = local_work_copy.replace(var_exp, value);
+                    sub_content = sub_content.replace(var_exp, value);
                 }
 
-                processed_content = processed_content.concat(local_work_copy);
+                processed_content = processed_content.concat(sub_content);
             }
             work_copy = work_copy.replace(raw_content, processed_content);
         }
