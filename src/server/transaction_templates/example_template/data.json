@@ -1,1 +1,1 @@
-{"mail_subj":"this is an %{variable_example} template ","meta_data":{"birthtime":"2020-04-23T18:06:20.016Z","mtime":"2020-04-29T10:24:49.341Z"},"mtime":"2020-04-23T21:05:54.820Z"}
+{"mail_subj":"%{greetings} from BRX","meta_data":{"birthtime":"2020-04-23T18:06:20.016Z","mtime":"2020-04-29T11:53:52.937Z"},"mtime":"2020-04-23T21:05:54.820Z"}
