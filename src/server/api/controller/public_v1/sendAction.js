@@ -3,7 +3,7 @@ const fs = require("fs");
 const asyncFs = fs.promises;
 
 const { template_dir } = require("../sever.conf.js");
-const { CACHE_URI, DATA_URI, parseVars } = require("../helper");
+const { CACHE_URI, DATA_URI, parseVars, parseIterator } = require("../helper");
 
 module.exports = (transport) => async (req, res) => {
     const { template_name } = req.params;
@@ -23,8 +23,10 @@ module.exports = (transport) => async (req, res) => {
         const template_data = JSON.parse(await asyncFs.readFile(claim_dir + DATA_URI, "utf8"));
         const parser = (img) => parseVars(img, vars, res.apiBadRequest);
 
-        const html = parser(raw_html);
+        let html = parser(raw_html);
         const subject = parser(template_data.mail_subj);
+
+        html = parseIterator(html, vars, res.apiBadRequest);
 
         if (!html || !subject) return null;
 

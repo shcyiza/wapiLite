@@ -47,11 +47,10 @@ module.exports = (base_dir) => async (req, res) => {
                     collapseWhitespace: true,
                     collapseInlineTagWhitespace: true,
                     conservativeCollapse: true,
-                    minifyCSS: true,
                 },
             );
 
-            const zipped_blob = min_blob.replace(/<style>(.*?)style>/i, "")
+            const zipped_blob = min_blob.replace(/<style([\S\s]*)style>/gi, "")
 
             await asyncFs.writeFile(claim_dir + CACHE_URI, zipped_blob);
             await asyncFs.writeFile(`${claim_dir}${DATA_URI}`, JSON.stringify(template_data));
