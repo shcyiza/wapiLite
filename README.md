@@ -62,7 +62,7 @@ Containers put the content of your mail inside an element centered in the middle
 ```
 
 #### Other inky tags you can try-out
-```
+```html
   button: <button>
   row: <row>
   columns: <columns>
